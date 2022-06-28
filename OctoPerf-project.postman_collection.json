@@ -1,0 +1,563 @@
+{
+	"info": {
+		"_postman_id": "a60602a7-46e1-4fe3-982d-510a29a768e5",
+		"name": "OctoPerf-project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21580533"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Creating a variable to save the token\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"console.log(jsonData);\r",
+							"\r",
+							"//Save value in a Environment Variable\r",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"pm.environment.set('startdate', moment().startOf(\"month\").format((\"YYYY-MM-DD\")));\r",
+							"pm.environment.set('enddate', moment().endOf(\"month\").format((\"YYYY-MM-DD\")));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authority",
+						"value": "api.octoperf.com"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvY3RvcGVyZiIsImlkIjoicFpPNnhYMEJ0THhSNEJnZXhIUW4iLCJleHAiOjE2NTYyNTU2ODksImlhdCI6MTY1NjE2OTI4OSwiaGFzaCI6ImQ1OWUwZTE1N2I0NWY4YzFjYTFmOTU3NjNkN2I1YTdlIn0.uGa-plAtx9QSErMapdKaldZQsR5NItr7KtJ-6XR-LlM"
+					},
+					{
+						"key": "content-type",
+						"value": "application/x-www-form-urlencoded;charset=UTF-8"
+					},
+					{
+						"key": "cookie",
+						"value": "__stripe_mid=351d3d40-8792-4ef3-9649-ba88d3ff197810c8bf; _ga=GA1.2.1269048784.1656169276; _gid=GA1.2.257770212.1656169276; slaask-token-5a5eed8e193aa4456766852b0d3bdd64=q0npk0t43nbvnwnhc7ex397x878zlq2g4p2vg7hzow7; __stripe_sid=1d9c60f3-78cc-4f80-a0c3-ef352429a38bd6d009"
+					},
+					{
+						"key": "origin",
+						"value": "https://api.octoperf.com"
+					},
+					{
+						"key": "referer",
+						"value": "https://api.octoperf.com/app/"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Windows\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "username=derekooocordova%40gmail.com&password=3601809045dC!"
+				},
+				"url": {
+					"raw": "https://api.octoperf.com/public/users/login",
+					"protocol": "https",
+					"host": [
+						"api",
+						"octoperf",
+						"com"
+					],
+					"path": [
+						"public",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "member-of",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Verify status code 200 as expected\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"var responseData = pm.response.json();\r",
+							"//Verify name contains expected result\r",
+							"pm.test(\"Verify name for member of endpoint matches Default successfully\", function () {\r",
+							"    console.log(responseData);\r",
+							"    pm.expect(responseData[0].name).to.equal('Default');\r",
+							"})\r",
+							"\r",
+							"//Verify ID\r",
+							"pm.test(\"Verify unique id matches 5Y-6xX0BFcWANjCE_UU9\", function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    console.log(responseData);\r",
+							"    pm.expect(responseData[0].id).to.equal('5Y-6xX0BFcWANjCE_UU9');\r",
+							"})\r",
+							"\r",
+							"//Verify userID\r",
+							"pm.test(\"Verify USER id matches pZO6xX0BtLxR4BgexHQn\", function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    console.log(responseData);\r",
+							"    pm.expect(responseData[0].userId).to.equal('pZO6xX0BtLxR4BgexHQn');\r",
+							"})\r",
+							"\r",
+							"//Verify Description\r",
+							"pm.test(\"Verify Description contains nothing\", function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    console.log(responseData);\r",
+							"    pm.expect(responseData[0].description).to.equal('');\r",
+							"})\r",
+							"\r",
+							"//Save ID in a Environment Variable\r",
+							"postman.setEnvironmentVariable(\"id\", responseData[0].id);\r",
+							"\r",
+							"//Save USER ID in a Environment Variable\r",
+							"postman.setEnvironmentVariable(\"userId\", responseData[0].userId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "authority",
+						"value": "api.octoperf.comm"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvY3RvcGVyZiIsImlkIjoicFpPNnhYMEJ0THhSNEJnZXhIUW4iLCJleHAiOjE2NTYyNTY4NTUsImlhdCI6MTY1NjE3MDQ1NSwiaGFzaCI6ImQ1OWUwZTE1N2I0NWY4YzFjYTFmOTU3NjNkN2I1YTdlIn0.9dDrEOxMPSXzKU-1M6W2s_beimMHentau9v-BzvvKWk"
+					},
+					{
+						"key": "cookie",
+						"value": "__stripe_mid=351d3d40-8792-4ef3-9649-ba88d3ff197810c8bf; _ga=GA1.2.1269048784.1656169276; _gid=GA1.2.257770212.1656169276; slaask-token-5a5eed8e193aa4456766852b0d3bdd64=q0npk0t43nbvnwnhc7ex397x878zlq2g4p2vg7hzow7; __stripe_sid=1d9c60f3-78cc-4f80-a0c3-ef352429a38bd6d009"
+					},
+					{
+						"key": "referer",
+						"value": "https://api.octoperf.com/app/"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Windows\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
+					}
+				],
+				"url": {
+					"raw": "https://api.octoperf.com/workspaces/member-of",
+					"protocol": "https",
+					"host": [
+						"api",
+						"octoperf",
+						"com"
+					],
+					"path": [
+						"workspaces",
+						"member-of"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateProject",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"//Create a variable for dynamic ID for the link, and call it newGenId\r",
+							"postman.setEnvironmentVariable(\"newGenId\", responseData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "authority",
+						"value": "api.octoperf.com"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvY3RvcGVyZiIsImlkIjoicFpPNnhYMEJ0THhSNEJnZXhIUW4iLCJleHAiOjE2NTY0NjQyMjcsImlhdCI6MTY1NjM3NzgyNywiaGFzaCI6ImQ1OWUwZTE1N2I0NWY4YzFjYTFmOTU3NjNkN2I1YTdlIn0.rmP2Hp3ptxDaHLDGGoPP6K0vGfUBOLv1O9dxWIWjHZc",
+						"disabled": true
+					},
+					{
+						"key": "content-type",
+						"value": "application/json;charset=UTF-8"
+					},
+					{
+						"key": "cookie",
+						"value": "__stripe_mid=351d3d40-8792-4ef3-9649-ba88d3ff197810c8bf; _ga=GA1.2.1269048784.1656169276; slaask-token-5a5eed8e193aa4456766852b0d3bdd64=q0npk0t43nbvnwnhc7ex397x878zlq2g4p2vg7hzow7; _gid=GA1.2.4045668.1656372486; __stripe_sid=fee057cc-c547-485f-8a3c-e320fa79e9f5a9a5cd"
+					},
+					{
+						"key": "origin",
+						"value": "https://api.octoperf.com"
+					},
+					{
+						"key": "referer",
+						"value": "https://api.octoperf.com/app/"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Windows\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"\",\r\n    \"created\": \"2022-06-28T01:02:23.434Z\",\r\n    \"lastModified\": \"2022-06-28T01:02:23.434Z\",\r\n    \"userId\": \"{{userId}}\",\r\n    \"workspaceId\": \"{{id}}\",\r\n    \"name\": \"TestBatch6\",\r\n    \"description\": \"Api Project create by Postman x2\",\r\n    \"type\": \"DESIGN\",\r\n    \"tags\": []\r\n}"
+				},
+				"url": {
+					"raw": "https://api.octoperf.com/design/projects?workspaceId={{id}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"octoperf",
+						"com"
+					],
+					"path": [
+						"design",
+						"projects"
+					],
+					"query": [
+						{
+							"key": "workspaceId",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update-Project",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "authority",
+						"value": "api.octoperf.com"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvY3RvcGVyZiIsImlkIjoicFpPNnhYMEJ0THhSNEJnZXhIUW4iLCJleHAiOjE2NTY0NjQyMjcsImlhdCI6MTY1NjM3NzgyNywiaGFzaCI6ImQ1OWUwZTE1N2I0NWY4YzFjYTFmOTU3NjNkN2I1YTdlIn0.rmP2Hp3ptxDaHLDGGoPP6K0vGfUBOLv1O9dxWIWjHZc"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json;charset=UTF-8"
+					},
+					{
+						"key": "cookie",
+						"value": "__stripe_mid=351d3d40-8792-4ef3-9649-ba88d3ff197810c8bf; _ga=GA1.2.1269048784.1656169276; slaask-token-5a5eed8e193aa4456766852b0d3bdd64=q0npk0t43nbvnwnhc7ex397x878zlq2g4p2vg7hzow7; _gid=GA1.2.4045668.1656372486; __stripe_sid=fee057cc-c547-485f-8a3c-e320fa79e9f5a9a5cd"
+					},
+					{
+						"key": "origin",
+						"value": "https://api.octoperf.com"
+					},
+					{
+						"key": "referer",
+						"value": "https://api.octoperf.com/app/"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Windows\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"created\": 1656378143434,\r\n    \"description\": \"Validating project modified - (This part is update via Postman MODIFIED W DYNAMIC)\",\r\n    \"id\": \"{{newGenId}}\",\r\n    \"lastModified\": 1656379913954,\r\n    \"name\": \"Validate_Project Modified-\",\r\n    \"tags\": [],\r\n    \"type\": \"DESIGN\",\r\n    \"userId\": \"{{userId}}\",\r\n    \"workspaceId\": \"{{id}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://api.octoperf.com/design/projects/{{newGenId}}?workspaceId=5Y-6xX0BFcWANjCE_UU9",
+					"protocol": "https",
+					"host": [
+						"api",
+						"octoperf",
+						"com"
+					],
+					"path": [
+						"design",
+						"projects",
+						"{{newGenId}}"
+					],
+					"query": [
+						{
+							"key": "workspaceId",
+							"value": "5Y-6xX0BFcWANjCE_UU9"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete-Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify that Project has been deleted - status code 204\", function(){\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "authority",
+						"value": "api.octoperf.com"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvY3RvcGVyZiIsImlkIjoicFpPNnhYMEJ0THhSNEJnZXhIUW4iLCJleHAiOjE2NTY0NjQyMjcsImlhdCI6MTY1NjM3NzgyNywiaGFzaCI6ImQ1OWUwZTE1N2I0NWY4YzFjYTFmOTU3NjNkN2I1YTdlIn0.rmP2Hp3ptxDaHLDGGoPP6K0vGfUBOLv1O9dxWIWjHZc"
+					},
+					{
+						"key": "cookie",
+						"value": "__stripe_mid=351d3d40-8792-4ef3-9649-ba88d3ff197810c8bf; _ga=GA1.2.1269048784.1656169276; slaask-token-5a5eed8e193aa4456766852b0d3bdd64=q0npk0t43nbvnwnhc7ex397x878zlq2g4p2vg7hzow7; _gid=GA1.2.4045668.1656372486; __stripe_sid=fee057cc-c547-485f-8a3c-e320fa79e9f5a9a5cd"
+					},
+					{
+						"key": "origin",
+						"value": "https://api.octoperf.com"
+					},
+					{
+						"key": "referer",
+						"value": "https://api.octoperf.com/app/"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Windows\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
+					}
+				],
+				"url": {
+					"raw": "https://api.octoperf.com/design/projects/{{newGenId}}?workspaceId={{id}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"octoperf",
+						"com"
+					],
+					"path": [
+						"design",
+						"projects",
+						"{{newGenId}}"
+					],
+					"query": [
+						{
+							"key": "workspaceId",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
